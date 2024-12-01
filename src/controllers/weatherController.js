@@ -47,17 +47,22 @@ async function saveDataToDatabase(data) {
 // Level 4: Post Weather Alerts
 async function saveWeatherAlert(alertDetails) {
    // TODO: Implement this function
-   try{
+   try {
     const data = await getDataFromDatabase();
-    data.weatherAlerts.push(alertDetails);
-    await saveDataToDatabase(data);
-    return true;
 
-   }  
-   catch(err){
-    console.log(err);
-    return false;
+    if (!data.weatherAlerts) {
+      data.weatherAlerts = []; 
     }
+
+    data.weatherAlerts.push(alertDetails);
+
+    await saveDataToDatabase(data);
+
+    return true; 
+  } catch (err) {
+    console.error("Error saving weather alert:", err);
+    return false; 
+  }
 }
 
 module.exports = {
